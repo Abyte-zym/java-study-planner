@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java面试学习计划生成器 | 个性化定制</title>
+<meta name="description" content="输入你的目标公司和准备时间，秒出定制化Java面试学习计划。上千次面试实战总结，每个人的计划都不同。">
+<meta name="keywords" content="Java面试学习计划,Java面试准备,个性化学习路线,面试备考计划">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.8;padding:20px}
+.container{max-width:700px;margin:0 auto}
+h1{font-size:1.6em;color:#38bdf8;text-align:center;margin:20px 0 10px}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:30px;font-size:0.95em}
+.form-group{background:#1e293b;border-radius:12px;padding:20px;margin:15px 0}
+.form-group label{display:block;color:#facc15;margin-bottom:8px;font-weight:bold}
+select,input[type=range]{width:100%;padding:10px;background:#0f172a;border:2px solid #334155;border-radius:8px;color:#e2e8f0;font-size:1em}
+.range-value{color:#38bdf8;font-weight:bold;margin-left:10px}
+.btn{display:block;width:100%;padding:14px;background:linear-gradient(135deg,#facc15,#f59e0b);border:none;border-radius:12px;font-size:1.2em;font-weight:bold;color:#0f172a;cursor:pointer;margin:20px 0;transition:all .2s}
+.btn:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(250,204,21,0.4)}
+.result{background:#1e293b;border-radius:12px;padding:24px;margin:20px 0;display:none}
+.result h2{color:#4ade80;margin-bottom:15px}
+.phase{background:#0f172a;border-radius:8px;padding:16px;margin:12px 0;border-left:4px solid #38bdf8}
+.phase h3{color:#facc15;margin-bottom:8px;font-size:1em}
+.phase p{color:#94a3b8;font-size:0.9em}
+.total{text-align:center;color:#f472b6;font-size:1.1em;margin:15px 0}
+.donate{text-align:center;margin:40px 0;padding:20px;background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:16px;border:2px solid #facc15}
+.donate p{color:#facc15;margin-bottom:10px}
+.donate img{width:180px;border-radius:12px;margin:5px}
+.social{text-align:center;color:#64748b;font-size:0.85em;margin-top:10px}
+.back{text-align:center;margin:20px 0}
+.back a{color:#38bdf8;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎯 Java面试学习计划生成器</h1>
+<p class="subtitle">上千次面试实战总结 · 输入信息秒出专属计划 · 不再盲目刷题</p>
+
+<div class="form-group">
+<label>🏢 目标公司类型</label>
+<select id="companyType">
+<option value="big">大厂 (阿里/字节/拼多多/快手)</option>
+<option value="mid">中厂 (美团/京东/携程/B站)</option>
+<option value="finance">金融科技 (银行软开/保险/证券)</option>
+<option value="startup">创业公司/中小企业</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>📊 当前水平</label>
+<select id="level">
+<option value="beginner">初级：Java基础尚可，框架不熟</option>
+<option value="intermediate">中级：Spring全家桶会用，缺分布式经验</option>
+<option value="advanced">高级：有项目经验，需攻大厂算法</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>⏰ 准备时间 <span class="range-value" id="timeLabel">14天</span></label>
+<input type="range" id="timeRange" min="3" max="60" value="14" oninput="document.getElementById('timeLabel').textContent=this.value+'天'">
+</div>
+
+<button class="btn" onclick="generate()">⚡ 生成专属学习计划</button>
+
+<div class="result" id="result"></div>
+
+<div class="donate">
+<p>☕ 计划省了你几十个小时，请作者喝杯咖啡</p>
+<img src="qrcode.png" alt="赞赏码">
+<img src="contact-qr.png" alt="联系方式">
+<p class="social">👉 <a href="https://Abyte-zym.github.io/arsenal/" style="color:#38bdf8">弹药库首页</a> | 🛒 <a href="https://Abyte-zym.github.io/arsenal/shop.html" style="color:#38bdf8">装备商店</a></p>
+</div>
+
+<div class="back"><a href="https://Abyte-zym.github.io/arsenal/">← 返回弹药库</a></div>
+</div>
+<script>
+function generate(){
+const ct=document.getElementById('companyType').value;
+const lv=document.getElementById('level').value;
+const days=parseInt(document.getElementById('timeRange').value);
+const phases=Math.ceil(days/7);
+const totalHours=days*3;
+
+let plan='';
+const names={'big':'大厂','mid':'中厂','finance':'金融科技','startup':'创业公司'};
+const focus={'big':'算法+系统设计+高并发','mid':'Spring全家桶+数据库优化','finance':'Java基础+SQL+微服务','startup':'全栈+快速上手能力'};
+const tips={'big':'重点刷LeetCode Hot 100，每天3题','mid':'重点Spring Cloud组件，Nacos/Sentinel必须会','finance':'重点SQL调优+银行系统架构','startup':'重点项目经验+快速学习能力'};
+
+plan+=`<h2>📋 你的专属学习计划</h2>`;
+plan+=`<p style="color:#94a3b8;margin-bottom:15px">目标：<b style="color:#4ade80">${names[ct]}</b> | 水平：<b style="color:#4ade80">${lv==='beginner'?'初级':lv==='intermediate'?'中级':'高级'}</b> | ${days}天冲刺</p>`;
+plan+=`<p style="color:#facc15">🎯 核心方向：${focus[ct]}</p>`;
+plan+=`<p style="color:#38bdf8">💡 关键策略：${tips[ct]}</p>`;
+
+for(let i=0;i<phases;i++){
+const phaseDays=Math.min(7,days-i*7);
+plan+=`<div class="phase"><h3>📅 第${i+1}阶段 (第${i*7+1}-${Math.min(i*7+phaseDays,days)}天)</h3>`;
+if(i===0)plan+=`<p>✅ Java核心巩固 + 数据结构 + 算法热身（每天${totalHours/phases|0}h）</p>`;
+else if(i===phases-1)plan+=`<p>✅ 冲刺模拟 + 真题实战 + 面试话术打磨（每天${totalHours/phases|0}h）</p>`;
+else plan+=`<p>✅ 框架深入 + 系统设计 + 项目复盘（每天${totalHours/phases|0}h）</p>`;
+plan+=`</div>`;
+}
+
+plan+=`<div class="total">📊 总计${days}天 · 约${totalHours}学时 · ${phases}个阶段</div>`;
+plan+=`<p style="text-align:center;color:#f472b6;margin-top:10px">🔥 想获得更详细的分日计划+配套资料？<br>👉 <a href="https://Abyte-zym.github.io/arsenal/shop.html" style="color:#38bdf8">装备商店 ¥9.9起</a></p>`;
+
+document.getElementById('result').style.display='block';
+document.getElementById('result').innerHTML=plan;
+}
+</script>
+</body>
+</html>
